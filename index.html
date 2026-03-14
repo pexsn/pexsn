@@ -3,107 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pexsn Capital | 佩克森资本</title>
+    <title>Pexsn Capital | 佩克森资本 - 领先的比特币量化对冲机构</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #020617; color: #f8fafc; overflow-x: hidden; }
-        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .tech-gradient { background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .glow { box-shadow: 0 0 20px rgba(56, 189, 248, 0.2); }
+        :root { --accent: #38bdf8; --bg: #030712; }
+        body { font-family: 'Inter', 'PingFang SC', sans-serif; background: var(--bg); color: #f8fafc; overflow-x: hidden; }
+        canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+        .glass-card { 
+            background: rgba(15, 23, 42, 0.6); 
+            backdrop-filter: blur(16px); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover { 
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            background: rgba(15, 23, 42, 0.8);
+        }
+        .text-gradient {
+            background: linear-gradient(to bottom right, #fff 30%, rgba(255,255,255,0.5));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .nav-link { color: #94a3b8; font-size: 0.875rem; transition: color 0.3s; cursor: pointer; }
+        .nav-link:hover { color: var(--accent); }
+        .lang-active { color: var(--accent); font-weight: 600; }
     </style>
 </head>
-<body class="min-h-screen font-sans">
+<body>
+    <canvas id="canvas"></canvas>
 
-    <nav class="fixed top-0 w-full z-50 glass px-6 py-4 flex justify-between items-center">
-        <div class="text-2xl font-bold tracking-tighter tech-gradient">PEXSN CAPITAL</div>
-        <div class="flex space-x-2">
-            <button onclick="changeLang('zh')" class="text-xs border border-slate-700 px-2 py-1 rounded hover:bg-slate-800 transition">中文</button>
-            <button onclick="changeLang('en')" class="text-xs border border-slate-700 px-2 py-1 rounded hover:bg-slate-800 transition">EN</button>
-            <button onclick="changeLang('es')" class="text-xs border border-slate-700 px-2 py-1 rounded hover:bg-slate-800 transition">ES</button>
+    <nav class="fixed top-0 w-full z-50 border-b border-white/5 bg-slate-950/50 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="text-xl font-bold tracking-widest text-white">PEXSN <span class="text-sky-500">CAPITAL</span></div>
+            <div class="hidden md:flex space-x-8">
+                <span class="nav-link" data-id="nav-home">首页</span>
+                <span class="nav-link" data-id="nav-strategy">策略矩阵</span>
+                <span class="nav-link" data-id="nav-safety">安全合规</span>
+            </div>
+            <div class="flex space-x-4 border-l border-white/10 pl-6">
+                <button onclick="changeLang('zh')" id="btn-zh" class="nav-link lang-active">简</button>
+                <button onclick="changeLang('en')" id="btn-en" class="nav-link">EN</button>
+                <button onclick="changeLang('es')" id="btn-es" class="nav-link">ES</button>
+            </div>
         </div>
     </nav>
 
-    <main class="pt-32 pb-20 px-6 max-w-6xl mx-auto">
-        <div class="text-center space-y-8">
-            <h1 id="hero-title" class="text-5xl md:text-7xl font-extrabold tracking-tight">
-                算法驱动 · 穿越周期
-            </h1>
-            <p id="hero-desc" class="text-slate-400 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
-                佩克森资本是一家聚焦比特币量化套利与对冲的专业资管机构。我们将传统金融的风控体系与加密市场的策略优势深度融合。
-            </p>
-            <div class="flex justify-center gap-4">
-                <a href="#" id="btn-start" class="glow bg-sky-500 hover:bg-sky-400 text-slate-900 px-8 py-3 rounded-full font-bold transition-all">
-                    开始咨询
-                </a>
+    <section class="relative pt-40 pb-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="max-w-3xl">
+                <div class="inline-block px-3 py-1 border border-sky-500/30 rounded-full text-sky-400 text-xs font-medium mb-6">
+                    Professional Crypto Asset Management
+                </div>
+                <h1 id="hero-title" class="text-5xl md:text-7xl font-bold mb-8 text-gradient leading-tight">
+                    算法驱动 · 穿越周期
+                </h1>
+                <p id="hero-desc" class="text-slate-400 text-lg md:text-xl leading-relaxed mb-10">
+                    佩克森资本是一家聚焦比特币量化套利与对冲的专业资管机构。为高净值个人与机构客户提供合规、稳健的数字资产财富管理方案。
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <button class="bg-sky-500 hover:bg-sky-400 text-slate-950 px-8 py-4 rounded-lg font-bold transition-all" id="btn-contact">联系我们</button>
+                    <button class="glass-card px-8 py-4 rounded-lg font-bold border border-white/10 hover:border-white/20" id="btn-learn">策略简章</button>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="grid md:grid-cols-3 gap-6 mt-24">
-            <div class="glass p-8 rounded-3xl">
-                <div class="text-sky-400 text-3xl mb-4">01</div>
-                <h3 id="feature-1-title" class="text-xl font-bold mb-2">量化套利</h3>
-                <p id="feature-1-desc" class="text-slate-500 text-sm">利用全球交易所价差，通过高频算法捕捉无风险或低风险获利机会。</p>
+    <section class="py-20 px-6 max-w-7xl mx-auto">
+        <h2 id="section-strategy" class="text-3xl font-bold mb-12 text-center text-white">核心业务矩阵</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="glass-card p-8 rounded-2xl">
+                <div class="w-12 h-12 bg-sky-500/10 border border-sky-500/20 rounded-lg flex items-center justify-center mb-6 text-sky-400">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                </div>
+                <h3 id="s1-t" class="text-xl font-bold mb-4">比特币量化套利</h3>
+                <p id="s1-d" class="text-slate-400 text-sm leading-relaxed">捕捉跨平台价差、期现回归收益，通过自研QuantCore引擎实现稳健获利。</p>
             </div>
-            <div class="glass p-8 rounded-3xl border-sky-500/30">
-                <div class="text-sky-400 text-3xl mb-4">02</div>
-                <h3 id="feature-2-title" class="text-xl font-bold mb-2">风险对冲</h3>
-                <p id="feature-2-desc" class="text-slate-500 text-sm">完善的对冲机制，在市场剧烈波动中保护资本安全，追求绝对收益。</p>
+            <div class="glass-card p-8 rounded-2xl">
+                <div class="w-12 h-12 bg-indigo-500/10 border border-indigo-500/20 rounded-lg flex items-center justify-center mb-6 text-indigo-400">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <h3 id="s2-t" class="text-xl font-bold mb-4">市场中性对冲</h3>
+                <p id="s2-d" class="text-slate-400 text-sm leading-relaxed">动态配比多空仓位，剥离市场系统性风险，专注赚取超额Alpha收益。</p>
             </div>
-            <div class="glass p-8 rounded-3xl">
-                <div class="text-sky-400 text-3xl mb-4">03</div>
-                <h3 id="feature-3-title" class="text-xl font-bold mb-2">专业资管</h3>
-                <p id="feature-3-desc" class="text-slate-500 text-sm">为高净值个人与机构提供合规、稳健的数字资产财富管理方案。</p>
+            <div class="glass-card p-8 rounded-2xl">
+                <div class="w-12 h-12 bg-purple-500/10 border border-purple-500/20 rounded-lg flex items-center justify-center mb-6 text-purple-400">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h3 id="s3-t" class="text-xl font-bold mb-4">定制化资管服务</h3>
+                <p id="s3-d" class="text-slate-400 text-sm leading-relaxed">针对不同风险偏好，提供从稳健型(8-15%)到进取型(25%+)的专属方案。</p>
             </div>
         </div>
-    </main>
+    </section>
 
-    <footer class="border-t border-slate-900 py-10 text-center text-slate-600 text-sm">
-        <p>© 2026 Pexsn Capital. All rights reserved.</p>
+    <footer class="border-t border-white/5 py-12 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="text-slate-500 text-sm mb-4 md:mb-0">© 2026 PEXSN CAPITAL. Algorithm Driven Wealth Management.</div>
+            <div class="flex space-x-6 text-slate-500 text-xs">
+                <span>Compliance</span>
+                <span>Security</span>
+                <span>Terms</span>
+            </div>
+        </div>
     </footer>
 
     <script>
-        const translations = {
+        // 1. 背景粒子动画
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.onresize = resize; resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.speedX; this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0; if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0; if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(56, 189, 248, 0.3)';
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+            }
+        }
+        for (let i = 0; i < 100; i++) particles.push(new Particle());
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // 2. 多语言翻译数据
+        const langData = {
             zh: {
                 "hero-title": "算法驱动 · 穿越周期",
-                "hero-desc": "佩克森资本是一家聚焦比特币量化套利与对冲的专业资管机构。我们将传统金融的风控体系与加密市场的策略优势深度融合。",
-                "btn-start": "开始咨询",
-                "feature-1-title": "量化套利",
-                "feature-1-desc": "利用全球交易所价差，通过高频算法捕捉无风险或低风险获利机会。",
-                "feature-2-title": "风险对冲",
-                "feature-2-desc": "完善的对冲机制，在市场剧烈波动中保护资本安全，追求绝对收益。",
-                "feature-3-title": "专业资管",
-                "feature-3-desc": "为高净值个人与机构提供合规、稳健的数字资产财富管理方案。"
+                "hero-desc": "佩克森资本是一家聚焦比特币量化套利与对冲的专业资管机构。以“算法驱动、风险可控”为核心，为客户创造可持续的绝对收益。",
+                "s1-t": "量化套利策略", "s1-d": "跨平台套利与期现对冲，通过自研QuantCore引擎捕捉全球市场的瞬时确定性收益机会。",
+                "s2-t": "比特币对冲策略", "s2-d": "市场中性体系，利用衍生品构建下行保护，实现“涨能跟、跌能抗”的资产表现。",
+                "s3-t": "定制资管服务", "s3-d": "从稳健型到进取型，根据您的风险偏好（8%-25%+）量身打造数字资产配置方案。",
+                "nav-home": "首页", "nav-strategy": "策略", "nav-safety": "安全", "btn-contact": "联系我们", "btn-learn": "策略简章"
             },
             en: {
-                "hero-title": "Algorithm Driven · Market Neutral",
-                "hero-desc": "Pexsn Capital is a professional asset management institution focused on Bitcoin quantitative arbitrage and hedging.",
-                "btn-start": "Get Started",
-                "feature-1-title": "Quant Arbitrage",
-                "feature-1-desc": "Capturing risk-adjusted returns through high-frequency algorithms across global exchanges.",
-                "feature-2-title": "Risk Hedging",
-                "feature-2-desc": "Sophisticated hedging mechanisms to protect capital safety amidst market volatility.",
-                "feature-3-title": "Asset Management",
-                "feature-3-desc": "Providing compliant and robust digital asset management for HNWI and institutions."
+                "hero-title": "Algo Driven, Market Neutral",
+                "hero-desc": "Pexsn Capital is a premier asset management firm specializing in Bitcoin quantitative arbitrage and hedging strategies.",
+                "s1-t": "Quant Arbitrage", "s1-d": "Capturing instant global price inefficiencies via our proprietary low-latency QuantCore engine.",
+                "s2-t": "Hedging Strategy", "s2-d": "Sophisticated market-neutral frameworks designed to hedge downside risk while capturing Alpha.",
+                "s3-t": "Private Wealth", "s3-d": "Tailored portfolios ranging from conservative (8-15%) to aggressive (25%+) growth profiles.",
+                "nav-home": "Home", "nav-strategy": "Strategy", "nav-safety": "Safety", "btn-contact": "Contact Us", "btn-learn": "Whitepaper"
             },
             es: {
-                "hero-title": "Algoritmo · Neutral al Mercado",
-                "hero-desc": "Pexsn Capital es una institución profesional de gestión de activos centrada en el arbitraje cuantitativo y la cobertura de Bitcoin.",
-                "btn-start": "Empezar",
-                "feature-1-title": "Arbitraje Cuant",
-                "feature-1-desc": "Captura de rendimientos ajustados al riesgo mediante algoritmos de alta frecuencia.",
-                "feature-2-title": "Cobertura de Riesgo",
-                "feature-2-desc": "Mecanismos sofisticados de cobertura para proteger la seguridad del capital.",
-                "feature-3-title": "Gestión de Activos",
-                "feature-3-desc": "Gestión de activos digitales robusta y conforme para instituciones y particulares."
+                "hero-title": "Algoritmo y Estabilidad",
+                "hero-desc": "Pexsn Capital es una gestora de activos profesional centrada en el arbitraje cuantitativo y la cobertura de Bitcoin.",
+                "s1-t": "Arbitraje Cuant", "s1-d": "Captura de ineficiencias de precios globales instantáneas a través de nuestro motor QuantCore.",
+                "s2-t": "Estrategia de Cobertura", "s2-d": "Sistemas neutrales al mercado diseñados para proteger el capital contra la volatilidad.",
+                "s3-t": "Gestión Privada", "s3-d": "Carteras personalizadas que van desde perfiles conservadores hasta crecimiento agresivo.",
+                "nav-home": "Inicio", "nav-strategy": "Estrategia", "nav-safety": "Seguridad", "btn-contact": "Contacto", "btn-learn": "Folleto"
             }
         };
 
         function changeLang(lang) {
-            for (let id in translations[lang]) {
-                const el = document.getElementById(id);
-                if (el) el.innerText = translations[lang][id];
+            const data = langData[lang];
+            for (let key in data) {
+                const el = document.getElementById(key) || document.querySelector(`[data-id="${key}"]`);
+                if (el) el.innerText = data[key];
             }
-            document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
+            // 更新按钮状态
+            document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('lang-active'));
+            document.getElementById(`btn-${lang}`).classList.add('lang-active');
         }
     </script>
 </body>
