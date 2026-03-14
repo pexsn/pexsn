@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pexsn Capital | 佩克森资本</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .tech-gradient { background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glow { box-shadow: 0 0 20px rgba(56, 189, 248, 0.2); }
+    </style>
+</head>
+<body class="min-h-screen font-sans">
+
+    <nav class="fixed top-0 w-full z-50 glass px-6 py-4 flex justify-between items-center">
+        <div class="text-2xl font-bold tracking-tighter tech-gradient">PEXSN CAPITAL</div>
+        <div class="flex space-x-2">
+            <button onclick="changeLang('zh')" class="text-xs border border-slate-700 px-2 py-1 rounded hover:bg-slate-800 transition">中文</button>
+            <button onclick="changeLang('en')" class="text-xs border border-slate-700 px-2 py-1 rounded hover:bg-slate-800 transition">EN</button>
+            <button onclick="changeLang('es')" class="text-xs border border-slate-700 px-2 py-1 rounded hover:bg-slate-800 transition">ES</button>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6 max-w-6xl mx-auto">
+        <div class="text-center space-y-8">
+            <h1 id="hero-title" class="text-5xl md:text-7xl font-extrabold tracking-tight">
+                算法驱动 · 穿越周期
+            </h1>
+            <p id="hero-desc" class="text-slate-400 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+                佩克森资本是一家聚焦比特币量化套利与对冲的专业资管机构。我们将传统金融的风控体系与加密市场的策略优势深度融合。
+            </p>
+            <div class="flex justify-center gap-4">
+                <a href="#" id="btn-start" class="glow bg-sky-500 hover:bg-sky-400 text-slate-900 px-8 py-3 rounded-full font-bold transition-all">
+                    开始咨询
+                </a>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 mt-24">
+            <div class="glass p-8 rounded-3xl">
+                <div class="text-sky-400 text-3xl mb-4">01</div>
+                <h3 id="feature-1-title" class="text-xl font-bold mb-2">量化套利</h3>
+                <p id="feature-1-desc" class="text-slate-500 text-sm">利用全球交易所价差，通过高频算法捕捉无风险或低风险获利机会。</p>
+            </div>
+            <div class="glass p-8 rounded-3xl border-sky-500/30">
+                <div class="text-sky-400 text-3xl mb-4">02</div>
+                <h3 id="feature-2-title" class="text-xl font-bold mb-2">风险对冲</h3>
+                <p id="feature-2-desc" class="text-slate-500 text-sm">完善的对冲机制，在市场剧烈波动中保护资本安全，追求绝对收益。</p>
+            </div>
+            <div class="glass p-8 rounded-3xl">
+                <div class="text-sky-400 text-3xl mb-4">03</div>
+                <h3 id="feature-3-title" class="text-xl font-bold mb-2">专业资管</h3>
+                <p id="feature-3-desc" class="text-slate-500 text-sm">为高净值个人与机构提供合规、稳健的数字资产财富管理方案。</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t border-slate-900 py-10 text-center text-slate-600 text-sm">
+        <p>© 2026 Pexsn Capital. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const translations = {
+            zh: {
+                "hero-title": "算法驱动 · 穿越周期",
+                "hero-desc": "佩克森资本是一家聚焦比特币量化套利与对冲的专业资管机构。我们将传统金融的风控体系与加密市场的策略优势深度融合。",
+                "btn-start": "开始咨询",
+                "feature-1-title": "量化套利",
+                "feature-1-desc": "利用全球交易所价差，通过高频算法捕捉无风险或低风险获利机会。",
+                "feature-2-title": "风险对冲",
+                "feature-2-desc": "完善的对冲机制，在市场剧烈波动中保护资本安全，追求绝对收益。",
+                "feature-3-title": "专业资管",
+                "feature-3-desc": "为高净值个人与机构提供合规、稳健的数字资产财富管理方案。"
+            },
+            en: {
+                "hero-title": "Algorithm Driven · Market Neutral",
+                "hero-desc": "Pexsn Capital is a professional asset management institution focused on Bitcoin quantitative arbitrage and hedging.",
+                "btn-start": "Get Started",
+                "feature-1-title": "Quant Arbitrage",
+                "feature-1-desc": "Capturing risk-adjusted returns through high-frequency algorithms across global exchanges.",
+                "feature-2-title": "Risk Hedging",
+                "feature-2-desc": "Sophisticated hedging mechanisms to protect capital safety amidst market volatility.",
+                "feature-3-title": "Asset Management",
+                "feature-3-desc": "Providing compliant and robust digital asset management for HNWI and institutions."
+            },
+            es: {
+                "hero-title": "Algoritmo · Neutral al Mercado",
+                "hero-desc": "Pexsn Capital es una institución profesional de gestión de activos centrada en el arbitraje cuantitativo y la cobertura de Bitcoin.",
+                "btn-start": "Empezar",
+                "feature-1-title": "Arbitraje Cuant",
+                "feature-1-desc": "Captura de rendimientos ajustados al riesgo mediante algoritmos de alta frecuencia.",
+                "feature-2-title": "Cobertura de Riesgo",
+                "feature-2-desc": "Mecanismos sofisticados de cobertura para proteger la seguridad del capital.",
+                "feature-3-title": "Gestión de Activos",
+                "feature-3-desc": "Gestión de activos digitales robusta y conforme para instituciones y particulares."
+            }
+        };
+
+        function changeLang(lang) {
+            for (let id in translations[lang]) {
+                const el = document.getElementById(id);
+                if (el) el.innerText = translations[lang][id];
+            }
+            document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
+        }
+    </script>
+</body>
+</html>
