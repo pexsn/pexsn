@@ -1,184 +1,399 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pexsn Capital | 佩克森资本 - 领先的比特币量化对冲机构</title>
+    <title>Pexsn Digital SRL | Global Technical Services</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --accent: #38bdf8; --bg: #030712; }
-        body { font-family: 'Inter', 'PingFang SC', sans-serif; background: var(--bg); color: #f8fafc; overflow-x: hidden; }
-        canvas { position: fixed; top: 0; left: 0; z-index: -1; }
-        .glass-card { 
-            background: rgba(15, 23, 42, 0.6); 
-            backdrop-filter: blur(16px); 
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        :root {
+            --primary-grad: linear-gradient(135deg, #48bb78 0%, #667eea 50%, #764ba2 100%);
+            --dark-bg: #0a0e27;
+            --glass-bg: rgba(255, 255, 255, 0.05);
         }
-        .glass-card:hover { 
-            border-color: var(--accent);
-            transform: translateY(-5px);
-            background: rgba(15, 23, 42, 0.8);
+
+        body {
+            background-color: var(--dark-bg);
+            color: #e2e8f0;
+            font-family: 'Inter', -apple-system, sans-serif;
+            scroll-behavior: smooth;
         }
-        .text-gradient {
-            background: linear-gradient(to bottom right, #fff 30%, rgba(255,255,255,0.5));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+
+        .gradient-text {
+            background: var(--primary-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .nav-link { color: #94a3b8; font-size: 0.875rem; transition: color 0.3s; cursor: pointer; }
-        .nav-link:hover { color: var(--accent); }
-        .lang-active { color: var(--accent); font-weight: 600; }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            border-color: #48bb78;
+        }
+
+        /* 语言切换器样式 */
+        .lang-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .lang-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            background: #1a202c;
+            border: 1px solid #4a5568;
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 1000;
+            min-width: 120px;
+        }
+        .lang-dropdown:hover .lang-menu {
+            display: block;
+        }
+        .lang-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .lang-item:hover {
+            background: var(--primary-grad);
+            color: white;
+        }
+
+        .hero-bg {
+            background: radial-gradient(circle at top right, rgba(118, 75, 162, 0.2), transparent),
+                        radial-gradient(circle at bottom left, rgba(72, 187, 120, 0.2), transparent);
+        }
+
+        [data-lang] { display: none; }
+        html[lang="en"] [data-lang="en"] { display: block; }
+        html[lang="zh"] [data-lang="zh"] { display: block; }
+        html[lang="es"] [data-lang="es"] { display: block; }
+        
+        /* 针对行内显示的特殊处理 */
+        html[lang="en"] span[data-lang="en"] { display: inline; }
+        html[lang="zh"] span[data-lang="zh"] { display: inline; }
+        html[lang="es"] span[data-lang="es"] { display: inline; }
     </style>
 </head>
-<body>
-    <canvas id="canvas"></canvas>
+<body class="hero-bg">
 
-    <nav class="fixed top-0 w-full z-50 border-b border-white/5 bg-slate-950/50 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            <div class="text-xl font-bold tracking-widest text-white">PEXSN <span class="text-sky-500">CAPITAL</span></div>
-            <div class="hidden md:flex space-x-8">
-                <span class="nav-link" data-id="nav-home">首页</span>
-                <span class="nav-link" data-id="nav-strategy">策略矩阵</span>
-                <span class="nav-link" data-id="nav-safety">安全合规</span>
+    <nav class="fixed w-full z-50 glass-card border-none top-0">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="tgGradNav" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#48bb78;stop-opacity:1"></stop>
+                                <stop offset="50%" style="stop-color:#667eea;stop-opacity:1"></stop>
+                                <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1"></stop>
+                            </linearGradient>
+                        </defs>
+                        <circle cx="256" cy="256" r="256" fill="#1a202c"></circle>
+                        <rect x="140" y="140" width="60" height="60" fill="url(#tgGradNav)" rx="8"></rect>
+                        <rect x="312" y="180" width="60" height="60" fill="#48bb78" rx="8"></rect>
+                    </svg>
+                </div>
+                <span class="font-bold text-xl tracking-wider uppercase">Pexsn Digital</span>
             </div>
-            <div class="flex space-x-4 border-l border-white/10 pl-6">
-                <button onclick="changeLang('zh')" id="btn-zh" class="nav-link lang-active">简</button>
-                <button onclick="changeLang('en')" id="btn-en" class="nav-link">EN</button>
-                <button onclick="changeLang('es')" id="btn-es" class="nav-link">ES</button>
+
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#home" class="hover:text-green-400 transition" data-lang="en">Home</a>
+                <a href="#home" class="hover:text-green-400 transition" data-lang="zh">首页</a>
+                <a href="#home" class="hover:text-green-400 transition" data-lang="es">Inicio</a>
+
+                <a href="#about" class="hover:text-green-400 transition" data-lang="en">About</a>
+                <a href="#about" class="hover:text-green-400 transition" data-lang="zh">关于我们</a>
+                <a href="#about" class="hover:text-green-400 transition" data-lang="es">Nosotros</a>
+
+                <a href="#services" class="hover:text-green-400 transition" data-lang="en">Services</a>
+                <a href="#services" class="hover:text-green-400 transition" data-lang="zh">服务</a>
+                <a href="#services" class="hover:text-green-400 transition" data-lang="es">Servicios</a>
+
+                <div class="lang-dropdown">
+                    <button class="bg-gray-800 px-4 py-2 rounded-lg flex items-center gap-2 border border-gray-600">
+                        <i class="fas fa-globe"></i>
+                        <span id="currentLang">English</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div class="lang-menu">
+                        <div class="lang-item" onclick="changeLang('en', 'English')">English</div>
+                        <div class="lang-item" onclick="changeLang('es', 'Español')">Español</div>
+                        <div class="lang-item" onclick="changeLang('zh', '中文')">中文</div>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
 
-    <section class="relative pt-40 pb-20 px-6">
+    <section id="home" class="pt-40 pb-20 px-6">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="mb-8 flex justify-center">
+                <div class="w-48 h-48 drop-shadow-2xl">
+                    <svg width="100%" height="100%" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="tgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#48bb78;stop-opacity:1"></stop>
+                                <stop offset="50%" style="stop-color:#667eea;stop-opacity:1"></stop>
+                                <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1"></stop>
+                            </linearGradient>
+                            <clipPath id="circleClip">
+                                <circle cx="256" cy="256" r="256"></circle>
+                            </clipPath>
+                        </defs>
+                        <circle cx="256" cy="256" r="256" fill="#0a0e27"></circle>
+                        <g clip-path="url(#circleClip)">
+                            <rect x="140" y="140" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
+                            <rect x="140" y="168" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
+                            <rect x="140" y="196" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
+                            <rect x="140" y="224" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
+                            <rect x="140" y="252" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
+                            <rect x="140" y="280" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
+                            <rect x="140" y="308" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
+                            <rect x="168" y="140" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
+                            <rect x="196" y="140" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
+                            <rect x="224" y="140" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
+                            <rect x="252" y="140" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
+                            <rect x="280" y="168" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
+                            <rect x="280" y="196" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
+                            <rect x="168" y="224" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
+                            <rect x="196" y="224" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
+                            <rect x="224" y="224" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
+                            <rect x="252" y="224" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
+                            <rect x="320" y="180" width="20" height="20" fill="#48bb78" rx="2"></rect>
+                            <rect x="320" y="204" width="20" height="20" fill="#48bb78" rx="2"></rect>
+                            <rect x="320" y="228" width="20" height="20" fill="#48bb78" rx="2"></rect>
+                            <rect x="320" y="252" width="20" height="20" fill="#48bb78" rx="2"></rect>
+                            <rect x="320" y="276" width="20" height="20" fill="#48bb78" rx="2"></rect>
+                            <rect x="344" y="180" width="20" height="20" fill="#48bb78" rx="2"></rect>
+                            <rect x="364" y="196" width="16" height="16" fill="#48bb78" rx="2"></rect>
+                            <rect x="364" y="224" width="16" height="16" fill="#48bb78" rx="2"></rect>
+                            <rect x="364" y="252" width="16" height="16" fill="#48bb78" rx="2"></rect>
+                            <rect x="344" y="276" width="20" height="20" fill="#48bb78" rx="2"></rect>
+                            <rect x="200" y="360" width="16" height="16" fill="#48bb78" opacity="0.8"></rect>
+                            <rect x="224" y="360" width="16" height="16" fill="#48bb78" opacity="0.6"></rect>
+                            <rect x="248" y="360" width="16" height="16" fill="#48bb78" opacity="0.4"></rect>
+                            <rect x="272" y="360" width="16" height="16" fill="#48bb78" opacity="0.3"></rect>
+                            <rect x="296" y="360" width="16" height="16" fill="#48bb78" opacity="0.2"></rect>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+                <span data-lang="en">Digital Solutions & <br><span class="gradient-text">Global Technical Services</span></span>
+                <span data-lang="zh">数字解决方案与<br><span class="gradient-text">全球技术服务</span></span>
+                <span data-lang="es">Soluciones Digitales & <br><span class="gradient-text">Servicios Técnicos Globales</span></span>
+            </h1>
+            <p class="text-xl text-gray-400 max-w-3xl mx-auto mb-10">
+                <span data-lang="en">Empowering your business with secure, efficient, and scalable digital transformation.</span>
+                <span data-lang="zh">凭借安全、高效、可扩展的数字化转型为您的业务赋能。</span>
+                <span data-lang="es">Impulsando su negocio con una transformación digital segura, eficiente y escalable.</span>
+            </p>
+            <div class="flex justify-center gap-4">
+                <a href="#services" class="bg-green-600 hover:bg-green-500 text-white px-8 py-4 rounded-full font-bold transition">
+                    <span data-lang="en">Explore Services</span>
+                    <span data-lang="zh">探索服务</span>
+                    <span data-lang="es">Explorar Servicios</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-20 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="glass-card p-10 rounded-3xl">
+                <h2 class="text-3xl font-bold mb-6 gradient-text">
+                    <span data-lang="en">About Pexsn Digital SRL</span>
+                    <span data-lang="zh">关于 佩克森数字有限公司</span>
+                    <span data-lang="es">Sobre Pexsn Digital SRL</span>
+                </h2>
+                <div class="space-y-6 text-gray-300 leading-relaxed text-lg">
+                    <p data-lang="en">Pexsn Digital SRL is a technology and consulting company registered in Belize, providing professional digital solutions, software development, technical consulting, and cross-border business services for clients worldwide.</p>
+                    <p data-lang="zh">Pexsn Digital SRL 是一家在伯利兹注册的科技咨询公司，为全球客户提供专业的数字解决方案、软件开发、技术咨询及跨境商务服务。</p>
+                    <p data-lang="es">Pexsn Digital SRL es una empresa de tecnología y consultoría registrada en Belice, que brinda soluciones digitales profesionales, desarrollo de software, consultoría técnica y servicios comerciales transfronterizos para clientes en todo el mundo.</p>
+
+                    <p data-lang="en">We focus on technology-driven services, including custom software development, automation tools, technical architecture design, data analysis, brand consulting, and international business support. Our mission is to deliver secure, efficient, and scalable digital solutions while maintaining full compliance with international regulations and local requirements.</p>
+                    <p data-lang="zh">我们专注于技术驱动型服务，包括定制软件开发、自动化工具、技术架构设计、数据分析、品牌咨询与国际商务支持。我们致力于提供安全、高效、可扩展的数字解决方案，并严格遵守国际法规与本地合规要求。</p>
+                    <p data-lang="es">Nos enfocamos en servicios impulsados por la tecnología, que incluyen desarrollo de software personalizado, herramientas de automatización, diseño de arquitectura técnica, análisis de datos, consultoría de marca y soporte comercial internacional.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-6 mt-12 border-t border-gray-700 pt-8">
+                    <div class="text-center">
+                        <div class="text-green-400 text-2xl mb-2 font-bold" data-lang="en">Transparency</div>
+                        <div class="text-green-400 text-2xl mb-2 font-bold" data-lang="zh">透明</div>
+                        <div class="text-green-400 text-2xl mb-2 font-bold" data-lang="es">Transparencia</div>
+                    </div>
+                    <div class="text-center border-x border-gray-700">
+                        <div class="text-purple-400 text-2xl mb-2 font-bold" data-lang="en">Professionalism</div>
+                        <div class="text-purple-400 text-2xl mb-2 font-bold" data-lang="zh">专业</div>
+                        <div class="text-purple-400 text-2xl mb-2 font-bold" data-lang="es">Profesionalismo</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-blue-400 text-2xl mb-2 font-bold" data-lang="en">Partnership</div>
+                        <div class="text-blue-400 text-2xl mb-2 font-bold" data-lang="zh">伙伴关系</div>
+                        <div class="text-blue-400 text-2xl mb-2 font-bold" data-lang="es">Asociación</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-20 px-6 bg-black/30">
         <div class="max-w-7xl mx-auto">
-            <div class="max-w-3xl">
-                <div class="inline-block px-3 py-1 border border-sky-500/30 rounded-full text-sky-400 text-xs font-medium mb-6">
-                    Professional Crypto Asset Management
+            <h2 class="text-4xl font-bold text-center mb-16">
+                <span data-lang="en">Our Core <span class="gradient-text">Services</span></span>
+                <span data-lang="zh">核心<span class="gradient-text">服务范围</span></span>
+                <span data-lang="es">Nuestros <span class="gradient-text">Servicios</span></span>
+            </h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass-card p-8 rounded-2xl">
+                    <i class="fas fa-brain text-4xl text-green-400 mb-6"></i>
+                    <h3 class="text-xl font-bold mb-4" data-lang="en">Technology Consulting</h3>
+                    <h3 class="text-xl font-bold mb-4" data-lang="zh">技术咨询</h3>
+                    <h3 class="text-xl font-bold mb-4" data-lang="es">Consultoría Tecnológica</h3>
+                    <p class="text-gray-400" data-lang="en">Quantitative strategy, system architecture design, and automation framework planning.</p>
+                    <p class="text-gray-400" data-lang="zh">量化策略咨询、系统架构设计、自动化框架规划及全球技术支持。</p>
+                    <p class="text-gray-400" data-lang="es">Estrategia cuantitativa, diseño de arquitectura de sistemas y planificación de marcos de automatización.</p>
                 </div>
-                <h1 id="hero-title" class="text-5xl md:text-7xl font-bold mb-8 text-gradient leading-tight">
-                    算法驱动 · 穿越周期
-                </h1>
-                <p id="hero-desc" class="text-slate-400 text-lg md:text-xl leading-relaxed mb-10">
-                    佩克森资本是一家聚焦比特币量化套利与对冲的专业资管机构。为高净值个人与机构客户提供合规、稳健的数字资产财富管理方案。
+
+                <div class="glass-card p-8 rounded-2xl">
+                    <i class="fas fa-code text-4xl text-purple-400 mb-6"></i>
+                    <h3 class="text-xl font-bold mb-4" data-lang="en">Software Development</h3>
+                    <h3 class="text-xl font-bold mb-4" data-lang="zh">软件开发</h3>
+                    <h3 class="text-xl font-bold mb-4" data-lang="es">Desarrollo de Software</h3>
+                    <p class="text-gray-400" data-lang="en">Custom scripts, web applications, and automated monitoring systems.</p>
+                    <p class="text-gray-400" data-lang="zh">定制软件、自动化脚本、网站应用、监控系统与技术平台。</p>
+                    <p class="text-gray-400" data-lang="es">Scripts personalizados, aplicaciones web y sistemas de monitoreo automatizados.</p>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl">
+                    <i class="fas fa-globe-americas text-4xl text-blue-400 mb-6"></i>
+                    <h3 class="text-xl font-bold mb-4" data-lang="en">Global Business</h3>
+                    <h3 class="text-xl font-bold mb-4" data-lang="zh">国际商务咨询</h3>
+                    <h3 class="text-xl font-bold mb-4" data-lang="es">Negocios Globales</h3>
+                    <p class="text-gray-400" data-lang="en">Brand management, cross-border operational support, and market expansion.</p>
+                    <p class="text-gray-400" data-lang="zh">品牌管理、国际商务咨询、跨境运营支持与全球市场拓展。</p>
+                    <p class="text-gray-400" data-lang="es">Gestión de marca, soporte operativo transfronterizo y expansión de mercado.</p>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl">
+                    <i class="fas fa-shield-alt text-4xl text-yellow-400 mb-6"></i>
+                    <h3 class="text-xl font-bold mb-4" data-lang="en">Digital Assets</h3>
+                    <h3 class="text-xl font-bold mb-4" data-lang="zh">数字资产管理</h3>
+                    <h3 class="text-xl font-bold mb-4" data-lang="es">Activos Digitales</h3>
+                    <p class="text-gray-400" data-lang="en">Management of trademarks, domain names, and software copyrights.</p>
+                    <p class="text-gray-400" data-lang="zh">商标、域名、软件著作权及其他数字资产的管理与持有服务。</p>
+                    <p class="text-gray-400" data-lang="es">Gestión de marcas registradas, nombres de dominio y derechos de autor de software.</p>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl">
+                    <i class="fas fa-shopping-cart text-4xl text-pink-400 mb-6"></i>
+                    <h3 class="text-xl font-bold mb-4" data-lang="en">General Trading</h3>
+                    <h3 class="text-xl font-bold mb-4" data-lang="zh">一般贸易</h3>
+                    <h3 class="text-xl font-bold mb-4" data-lang="es">Comercio General</h3>
+                    <p class="text-gray-400" data-lang="en">Cross-border e-commerce, import/export, and wholesale commerce.</p>
+                    <p class="text-gray-400" data-lang="zh">从事跨境电商、进出口贸易、批发及一般商品贸易。</p>
+                    <p class="text-gray-400" data-lang="es">Comercio electrónico transfronterizo, importación/exportación y comercio al por mayor.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-20 px-6">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
+            <div class="flex flex-col justify-center">
+                <h2 class="text-3xl font-bold mb-6">
+                    <span data-lang="en">Mission & Vision</span>
+                    <span data-lang="zh">使命与愿景</span>
+                    <span data-lang="es">Misión y Visión</span>
+                </h2>
+                <p class="text-xl text-gray-300 mb-8 italic border-l-4 border-green-500 pl-6">
+                    <span data-lang="en">"Our mission is to provide secure, compliant, and innovative digital services for global clients."</span>
+                    <span data-lang="zh">“我们的使命是为全球客户提供安全、合规、创新的数字服务。”</span>
+                    <span data-lang="es">"Nuestra misión es brindar servicios digitales seguros, compatibles e innovadores para clientes globales."</span>
                 </p>
-                <div class="flex flex-wrap gap-4">
-                    <button class="bg-sky-500 hover:bg-sky-400 text-slate-950 px-8 py-4 rounded-lg font-bold transition-all" id="btn-contact">联系我们</button>
-                    <button class="glass-card px-8 py-4 rounded-lg font-bold border border-white/10 hover:border-white/20" id="btn-learn">策略简章</button>
+                <p class="text-gray-400">
+                    <span data-lang="en">We uphold professionalism, compliance, transparency, and sustainable development.</span>
+                    <span data-lang="zh">我们坚持专业、合规、透明与可持续发展。</span>
+                    <span data-lang="es">Defendemos el profesionalismo, el cumplimiento, la transparencia y el desarrollo sostenible.</span>
+                </p>
+            </div>
+
+            <div class="glass-card p-8 rounded-3xl border-l-4 border-l-purple-500">
+                <h2 class="text-3xl font-bold mb-8" data-lang="en">Get In Touch</h2>
+                <h2 class="text-3xl font-bold mb-8" data-lang="zh">联系我们</h2>
+                <h2 class="text-3xl font-bold mb-8" data-lang="es">Contacto</h2>
+                
+                <div class="space-y-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center text-green-400">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Company Name</p>
+                            <p class="font-bold">Pexsn Digital SRL</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center text-purple-400">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Email Address</p>
+                            <p class="font-bold">info@pexsn.com</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-400">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Jurisdiction</p>
+                            <p class="font-bold">Belize</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gray-500/20 rounded-full flex items-center justify-center text-gray-400">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-400">Website</p>
+                            <p class="font-bold">www.pexsn.com</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="py-20 px-6 max-w-7xl mx-auto">
-        <h2 id="section-strategy" class="text-3xl font-bold mb-12 text-center text-white">核心业务矩阵</h2>
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="glass-card p-8 rounded-2xl">
-                <div class="w-12 h-12 bg-sky-500/10 border border-sky-500/20 rounded-lg flex items-center justify-center mb-6 text-sky-400">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                </div>
-                <h3 id="s1-t" class="text-xl font-bold mb-4">比特币量化套利</h3>
-                <p id="s1-d" class="text-slate-400 text-sm leading-relaxed">捕捉跨平台价差、期现回归收益，通过自研QuantCore引擎实现稳健获利。</p>
-            </div>
-            <div class="glass-card p-8 rounded-2xl">
-                <div class="w-12 h-12 bg-indigo-500/10 border border-indigo-500/20 rounded-lg flex items-center justify-center mb-6 text-indigo-400">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                </div>
-                <h3 id="s2-t" class="text-xl font-bold mb-4">市场中性对冲</h3>
-                <p id="s2-d" class="text-slate-400 text-sm leading-relaxed">动态配比多空仓位，剥离市场系统性风险，专注赚取超额Alpha收益。</p>
-            </div>
-            <div class="glass-card p-8 rounded-2xl">
-                <div class="w-12 h-12 bg-purple-500/10 border border-purple-500/20 rounded-lg flex items-center justify-center mb-6 text-purple-400">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                </div>
-                <h3 id="s3-t" class="text-xl font-bold mb-4">定制化资管服务</h3>
-                <p id="s3-d" class="text-slate-400 text-sm leading-relaxed">针对不同风险偏好，提供从稳健型(8-15%)到进取型(25%+)的专属方案。</p>
-            </div>
-        </div>
-    </section>
-
-    <footer class="border-t border-white/5 py-12 px-6">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
-            <div class="text-slate-500 text-sm mb-4 md:mb-0">© 2026 PEXSN CAPITAL. Algorithm Driven Wealth Management.</div>
-            <div class="flex space-x-6 text-slate-500 text-xs">
-                <span>Compliance</span>
-                <span>Security</span>
-                <span>Terms</span>
-            </div>
-        </div>
+    <footer class="py-10 border-t border-gray-800 text-center text-gray-500 text-sm">
+        <p>&copy; 2026 Pexsn Digital SRL. All rights reserved.</p>
     </footer>
 
     <script>
-        // 1. 背景粒子动画
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.onresize = resize; resize();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.5;
-                this.speedX = Math.random() * 0.5 - 0.25;
-                this.speedY = Math.random() * 0.5 - 0.25;
-            }
-            update() {
-                this.x += this.speedX; this.y += this.speedY;
-                if (this.x > canvas.width) this.x = 0; if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0; if (this.y < 0) this.y = canvas.height;
-            }
-            draw() {
-                ctx.fillStyle = 'rgba(56, 189, 248, 0.3)';
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-            }
+        function changeLang(lang, label) {
+            document.documentElement.lang = lang;
+            document.getElementById('currentLang').innerText = label;
+            
+            // 可选：保存到本地存储
+            localStorage.setItem('preferredLang', lang);
         }
-        for (let i = 0; i < 100; i++) particles.push(new Particle());
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        }
-        animate();
 
-        // 2. 多语言翻译数据
-        const langData = {
-            zh: {
-                "hero-title": "算法驱动 · 穿越周期",
-                "hero-desc": "佩克森资本是一家聚焦比特币量化套利与对冲的专业资管机构。以“算法驱动、风险可控”为核心，为客户创造可持续的绝对收益。",
-                "s1-t": "量化套利策略", "s1-d": "跨平台套利与期现对冲，通过自研QuantCore引擎捕捉全球市场的瞬时确定性收益机会。",
-                "s2-t": "比特币对冲策略", "s2-d": "市场中性体系，利用衍生品构建下行保护，实现“涨能跟、跌能抗”的资产表现。",
-                "s3-t": "定制资管服务", "s3-d": "从稳健型到进取型，根据您的风险偏好（8%-25%+）量身打造数字资产配置方案。",
-                "nav-home": "首页", "nav-strategy": "策略", "nav-safety": "安全", "btn-contact": "联系我们", "btn-learn": "策略简章"
-            },
-            en: {
-                "hero-title": "Algo Driven, Market Neutral",
-                "hero-desc": "Pexsn Capital is a premier asset management firm specializing in Bitcoin quantitative arbitrage and hedging strategies.",
-                "s1-t": "Quant Arbitrage", "s1-d": "Capturing instant global price inefficiencies via our proprietary low-latency QuantCore engine.",
-                "s2-t": "Hedging Strategy", "s2-d": "Sophisticated market-neutral frameworks designed to hedge downside risk while capturing Alpha.",
-                "s3-t": "Private Wealth", "s3-d": "Tailored portfolios ranging from conservative (8-15%) to aggressive (25%+) growth profiles.",
-                "nav-home": "Home", "nav-strategy": "Strategy", "nav-safety": "Safety", "btn-contact": "Contact Us", "btn-learn": "Whitepaper"
-            },
-            es: {
-                "hero-title": "Algoritmo y Estabilidad",
-                "hero-desc": "Pexsn Capital es una gestora de activos profesional centrada en el arbitraje cuantitativo y la cobertura de Bitcoin.",
-                "s1-t": "Arbitraje Cuant", "s1-d": "Captura de ineficiencias de precios globales instantáneas a través de nuestro motor QuantCore.",
-                "s2-t": "Estrategia de Cobertura", "s2-d": "Sistemas neutrales al mercado diseñados para proteger el capital contra la volatilidad.",
-                "s3-t": "Gestión Privada", "s3-d": "Carteras personalizadas que van desde perfiles conservadores hasta crecimiento agresivo.",
-                "nav-home": "Inicio", "nav-strategy": "Estrategia", "nav-safety": "Seguridad", "btn-contact": "Contacto", "btn-learn": "Folleto"
-            }
+        // 页面加载时恢复语言
+        window.onload = () => {
+            const savedLang = localStorage.getItem('preferredLang') || 'en';
+            const labels = { 'en': 'English', 'zh': '中文', 'es': 'Español' };
+            changeLang(savedLang, labels[savedLang]);
         };
-
-        function changeLang(lang) {
-            const data = langData[lang];
-            for (let key in data) {
-                const el = document.getElementById(key) || document.querySelector(`[data-id="${key}"]`);
-                if (el) el.innerText = data[key];
-            }
-            // 更新按钮状态
-            document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('lang-active'));
-            document.getElementById(`btn-${lang}`).classList.add('lang-active');
-        }
     </script>
 </body>
 </html>
