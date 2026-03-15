@@ -6,86 +6,96 @@
     <title>Pexsn Digital SRL | Global Technical Services</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='tgGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2348bb78;stop-opacity:1'%3E%3C/stop%3E%3Cstop offset='50%25' style='stop-color:%23667eea;stop-opacity:1'%3E%3C/stop%3E%3Cstop offset='100%25' style='stop-color:%23764ba2;stop-opacity:1'%3E%3C/stop%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='256' cy='256' r='256' fill='%230a0e27'%3E%3C/circle%3E%3Crect x='140' y='140' width='60' height='60' fill='url(%23tgGrad)' rx='8'%3E%3C/rect%3E%3Crect x='312' y='180' width='60' height='60' fill='%2348bb78' rx='8'%3E%3C/rect%3E%3C/svg%3E">
+
     <style>
         :root {
-            --primary-grad: linear-gradient(135deg, #48bb78 0%, #667eea 50%, #764ba2 100%);
-            --dark-bg: #0a0e27;
+            /* 1. 网页主体背景：使用 Logo 底色，深蓝/黑色 */
+            --dark-bg: #0a0e27; 
+            
+            /* 2. 主段落文字颜色：使用高亮度浅灰色，确保在黑底上极端清晰 */
+            --text-main: #e2e8f0; 
+            
+            /* 3. 高亮/关键项颜色：使用高亮度青绿色，替换难以看清的紫色 */
+            --highlight-color: #00f2fe; 
+            
+            /* 4. 品牌辅助色：使用 Logo 中的翡翠绿 */
+            --brand-green: #48bb78;
+            
+            /* 混合渐变 (用于标题和装饰) */
+            --primary-grad: linear-gradient(135deg, #48bb78 0%, #00f2fe 100%);
             --glass-bg: rgba(255, 255, 255, 0.05);
         }
 
         body {
             background-color: var(--dark-bg);
-            color: #e2e8f0;
+            color: var(--text-main); /* 默认文字颜色 */
             font-family: 'Inter', -apple-system, sans-serif;
             scroll-behavior: smooth;
+            line-height: 1.6;
         }
 
+        /* 渐变标题样式 */
         .gradient-text {
             background: var(--primary-grad);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
+        /* 毛玻璃卡片样式，增加对比度 */
         .glass-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
         .glass-card:hover {
-            transform: translateY(-10px);
-            border-color: #48bb78;
+            transform: translateY(-8px);
+            border-color: var(--brand-green);
         }
 
-        /* 语言切换器样式 */
-        .lang-dropdown {
-            position: relative;
-            display: inline-block;
-        }
+        /* 语言切换器悬停效果 */
+        .lang-dropdown { position: relative; display: inline-block; }
         .lang-menu {
             display: none;
             position: absolute;
             right: 0;
-            background: #1a202c;
-            border: 1px solid #4a5568;
+            background: #111;
+            border: 1px solid #444;
             border-radius: 8px;
-            overflow: hidden;
             z-index: 1000;
             min-width: 120px;
         }
-        .lang-dropdown:hover .lang-menu {
-            display: block;
-        }
-        .lang-item {
-            padding: 10px 15px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .lang-item:hover {
-            background: var(--primary-grad);
-            color: white;
+        .lang-dropdown:hover .lang-menu { display: block; }
+        .lang-item { padding: 10px 15px; cursor: pointer; transition: background 0.2s; }
+        .lang-item:hover { background: var(--brand-green); color: white; }
+
+        /* 背景装饰光晕 */
+        .hero-bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 10% 10%, rgba(72, 187, 120, 0.1), transparent 40%),
+                        radial-gradient(circle at 90% 90%, rgba(0, 242, 254, 0.1), transparent 40%);
+            z-index: -1;
         }
 
-        .hero-bg {
-            background: radial-gradient(circle at top right, rgba(118, 75, 162, 0.2), transparent),
-                        radial-gradient(circle at bottom left, rgba(72, 187, 120, 0.2), transparent);
-        }
-
+        /* 多语言显示/隐藏逻辑 */
         [data-lang] { display: none; }
         html[lang="en"] [data-lang="en"] { display: block; }
         html[lang="zh"] [data-lang="zh"] { display: block; }
         html[lang="es"] [data-lang="es"] { display: block; }
-        
-        /* 针对行内显示的特殊处理 */
         html[lang="en"] span[data-lang="en"] { display: inline; }
         html[lang="zh"] span[data-lang="zh"] { display: inline; }
         html[lang="es"] span[data-lang="es"] { display: inline; }
     </style>
 </head>
-<body class="hero-bg">
+<body>
 
-    <nav class="fixed w-full z-50 glass-card border-none top-0">
+    <div class="hero-bg-glow"></div>
+
+    <nav class="fixed w-full z-50 glass-card border-none top-0" style="background: rgba(10, 14, 39, 0.8);">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10">
@@ -102,10 +112,10 @@
                         <rect x="312" y="180" width="60" height="60" fill="#48bb78" rx="8"></rect>
                     </svg>
                 </div>
-                <span class="font-bold text-xl tracking-wider uppercase">Pexsn Digital</span>
+                <span class="font-bold text-xl tracking-wider uppercase gradient-text">Pexsn Digital</span>
             </div>
 
-            <div class="hidden md:flex items-center gap-8">
+            <div class="hidden md:flex items-center gap-8 text-gray-200">
                 <a href="#home" class="hover:text-green-400 transition" data-lang="en">Home</a>
                 <a href="#home" class="hover:text-green-400 transition" data-lang="zh">首页</a>
                 <a href="#home" class="hover:text-green-400 transition" data-lang="es">Inicio</a>
@@ -119,12 +129,12 @@
                 <a href="#services" class="hover:text-green-400 transition" data-lang="es">Servicios</a>
 
                 <div class="lang-dropdown">
-                    <button class="bg-gray-800 px-4 py-2 rounded-lg flex items-center gap-2 border border-gray-600">
+                    <button class="bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center gap-2 border border-gray-600 hover:border-green-400 transition">
                         <i class="fas fa-globe"></i>
                         <span id="currentLang">English</span>
                         <i class="fas fa-chevron-down text-xs"></i>
                     </button>
-                    <div class="lang-menu">
+                    <div class="lang-menu text-gray-200">
                         <div class="lang-item" onclick="changeLang('en', 'English')">English</div>
                         <div class="lang-item" onclick="changeLang('es', 'Español')">Español</div>
                         <div class="lang-item" onclick="changeLang('zh', '中文')">中文</div>
@@ -134,13 +144,13 @@
         </div>
     </nav>
 
-    <section id="home" class="pt-40 pb-20 px-6">
+    <section id="home" class="pt-48 pb-24 px-6">
         <div class="max-w-7xl mx-auto text-center">
-            <div class="mb-8 flex justify-center">
-                <div class="w-48 h-48 drop-shadow-2xl">
+            <div class="mb-10 flex justify-center">
+                <div class="w-48 h-48 drop-shadow-[0_0_20px_rgba(72,187,120,0.3)]">
                     <svg width="100%" height="100%" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
                         <defs>
-                            <linearGradient id="tgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <linearGradient id="tgGradHero" x1="0%" y1="0%" x2="100%" y2="100%">
                                 <stop offset="0%" style="stop-color:#48bb78;stop-opacity:1"></stop>
                                 <stop offset="50%" style="stop-color:#667eea;stop-opacity:1"></stop>
                                 <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1"></stop>
@@ -151,23 +161,23 @@
                         </defs>
                         <circle cx="256" cy="256" r="256" fill="#0a0e27"></circle>
                         <g clip-path="url(#circleClip)">
-                            <rect x="140" y="140" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
-                            <rect x="140" y="168" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
-                            <rect x="140" y="196" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
-                            <rect x="140" y="224" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
-                            <rect x="140" y="252" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
-                            <rect x="140" y="280" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
-                            <rect x="140" y="308" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
-                            <rect x="168" y="140" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
-                            <rect x="196" y="140" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
-                            <rect x="224" y="140" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
-                            <rect x="252" y="140" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
-                            <rect x="280" y="168" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
-                            <rect x="280" y="196" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
-                            <rect x="168" y="224" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
-                            <rect x="196" y="224" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
-                            <rect x="224" y="224" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
-                            <rect x="252" y="224" width="24" height="24" fill="url(#tgGrad)" rx="2"></rect>
+                            <rect x="140" y="140" width="24" height="24" fill="url(#tgGradHero)" rx="2"></rect>
+                            <rect x="140" y="168" width="24" height="24" fill="url(#tgGradHero)" rx="2"></rect>
+                            <rect x="140" y="196" width="24" height="24" fill="url(#tgGradHero)" rx="2"></rect>
+                            <rect x="140" y="224" width="24" height="24" fill="url(#tgGradHero)" rx="2"></rect>
+                            <rect x="140" y="252" width="24" height="24" fill="url(#tgGradHero)" rx="2"></rect>
+                            <rect x="140" y="280" width="24" height="24" fill="url(#tgGradHero)" rx="2"></rect>
+                            <rect x="140" y="308" width="24" height="24" fill="url(#tgGradHero)" rx="2"></rect>
+                            <rect x="168" y="140" width="24" height="24" fill="url(#tgGradHero)" rx="2"></rect>
+                            <rect x="196" y="140" width="24" height="24" fill="url(#tgGradHero)" rx="2"></rect>
+                            <rect x="224" y="140" width="24" height="24" fill="url(#tgGradHero)" rx="2"></rect>
+                            <rect x="252" y="140" width="24" height="24" fill="url(#tgGradHero)" rx="2"></rect>
+                            <rect x="280" y="168" width="24" height="24" fill="url(#tgGradHero)" rx="2"></rect>
+                            <rect x="280" y="196" width="24" height="24" fill="url(#tgGradHero)" rx="2"></rect>
+                            <rect x="168" y="224" width="24" height="24" fill="url(#tgGradHero)" rx="2"></rect>
+                            <rect x="196" y="224" width="24" height="24" fill="url(#tgGradHero)" rx="2"></rect>
+                            <rect x="224" y="224" width="24" height="24" fill="url(#tgGradHero)" rx="2"></rect>
+                            <rect x="252" y="224" width="24" height="24" fill="url(#tgGradHero)" rx="2"></rect>
                             <rect x="320" y="180" width="20" height="20" fill="#48bb78" rx="2"></rect>
                             <rect x="320" y="204" width="20" height="20" fill="#48bb78" rx="2"></rect>
                             <rect x="320" y="228" width="20" height="20" fill="#48bb78" rx="2"></rect>
@@ -187,18 +197,21 @@
                     </svg>
                 </div>
             </div>
-            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+            
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-8 leading-tight text-white">
                 <span data-lang="en">Digital Solutions & <br><span class="gradient-text">Global Technical Services</span></span>
                 <span data-lang="zh">数字解决方案与<br><span class="gradient-text">全球技术服务</span></span>
                 <span data-lang="es">Soluciones Digitales & <br><span class="gradient-text">Servicios Técnicos Globales</span></span>
             </h1>
-            <p class="text-xl text-gray-400 max-w-3xl mx-auto mb-10">
+            
+            <p class="text-xl text-gray-200 max-w-3xl mx-auto mb-12">
                 <span data-lang="en">Empowering your business with secure, efficient, and scalable digital transformation.</span>
                 <span data-lang="zh">凭借安全、高效、可扩展的数字化转型为您的业务赋能。</span>
                 <span data-lang="es">Impulsando su negocio con una transformación digital segura, eficiente y escalable.</span>
             </p>
+            
             <div class="flex justify-center gap-4">
-                <a href="#services" class="bg-green-600 hover:bg-green-500 text-white px-8 py-4 rounded-full font-bold transition">
+                <a href="#services" class="bg-green-600 hover:bg-green-500 text-white px-10 py-4 rounded-full font-bold transition text-lg drop-shadow-md">
                     <span data-lang="en">Explore Services</span>
                     <span data-lang="zh">探索服务</span>
                     <span data-lang="es">Explorar Servicios</span>
@@ -207,15 +220,16 @@
         </div>
     </section>
 
-    <section id="about" class="py-20 px-6">
+    <section id="about" class="py-24 px-6 bg-black/40">
         <div class="max-w-5xl mx-auto">
-            <div class="glass-card p-10 rounded-3xl">
-                <h2 class="text-3xl font-bold mb-6 gradient-text">
+            <div class="glass-card p-12 rounded-3xl border-gray-700">
+                <h2 class="text-4xl font-bold mb-8 gradient-text">
                     <span data-lang="en">About Pexsn Digital SRL</span>
                     <span data-lang="zh">关于 佩克森数字有限公司</span>
                     <span data-lang="es">Sobre Pexsn Digital SRL</span>
                 </h2>
-                <div class="space-y-6 text-gray-300 leading-relaxed text-lg">
+                
+                <div class="space-y-8 text-gray-100 leading-relaxed text-lg">
                     <p data-lang="en">Pexsn Digital SRL is a technology and consulting company registered in Belize, providing professional digital solutions, software development, technical consulting, and cross-border business services for clients worldwide.</p>
                     <p data-lang="zh">Pexsn Digital SRL 是一家在伯利兹注册的科技咨询公司，为全球客户提供专业的数字解决方案、软件开发、技术咨询及跨境商务服务。</p>
                     <p data-lang="es">Pexsn Digital SRL es una empresa de tecnología y consultoría registrada en Belice, que brinda soluciones digitales profesionales, desarrollo de software, consultoría técnica y servicios comerciales transfronterizos para clientes en todo el mundo.</p>
@@ -225,149 +239,129 @@
                     <p data-lang="es">Nos enfocamos en servicios impulsados por la tecnología, que incluyen desarrollo de software personalizado, herramientas de automatización, diseño de arquitectura técnica, análisis de datos, consultoría de marca y soporte comercial internacional.</p>
                 </div>
                 
-                <div class="grid md:grid-cols-3 gap-6 mt-12 border-t border-gray-700 pt-8">
-                    <div class="text-center">
-                        <div class="text-green-400 text-2xl mb-2 font-bold" data-lang="en">Transparency</div>
-                        <div class="text-green-400 text-2xl mb-2 font-bold" data-lang="zh">透明</div>
-                        <div class="text-green-400 text-2xl mb-2 font-bold" data-lang="es">Transparencia</div>
+                <div class="grid md:grid-cols-3 gap-6 mt-16 border-t border-gray-700 pt-10 text-center">
+                    <div>
+                        <div class="text-white text-3xl font-bold" data-lang="en">Transparency</div>
+                        <div class="text-white text-3xl font-bold" data-lang="zh">透明</div>
+                        <div class="text-white text-3xl font-bold" data-lang="es">Transparencia</div>
                     </div>
-                    <div class="text-center border-x border-gray-700">
-                        <div class="text-purple-400 text-2xl mb-2 font-bold" data-lang="en">Professionalism</div>
-                        <div class="text-purple-400 text-2xl mb-2 font-bold" data-lang="zh">专业</div>
-                        <div class="text-purple-400 text-2xl mb-2 font-bold" data-lang="es">Profesionalismo</div>
+                    <div class="border-x border-gray-700">
+                        <div class="text-white text-3xl font-bold gradient-text" data-lang="en">Professionalism</div>
+                        <div class="text-white text-3xl font-bold gradient-text" data-lang="zh">专业</div>
+                        <div class="text-white text-3xl font-bold gradient-text" data-lang="es">Profesionalismo</div>
                     </div>
-                    <div class="text-center">
-                        <div class="text-blue-400 text-2xl mb-2 font-bold" data-lang="en">Partnership</div>
-                        <div class="text-blue-400 text-2xl mb-2 font-bold" data-lang="zh">伙伴关系</div>
-                        <div class="text-blue-400 text-2xl mb-2 font-bold" data-lang="es">Asociación</div>
+                    <div>
+                        <div class="text-white text-3xl font-bold" data-lang="en">Partnership</div>
+                        <div class="text-white text-3xl font-bold" data-lang="zh">伙伴关系</div>
+                        <div class="text-white text-3xl font-bold" data-lang="es">Asociación</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="services" class="py-20 px-6 bg-black/30">
+    <section id="services" class="py-24 px-6">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-16">
+            <h2 class="text-4xl font-bold text-center mb-20 text-white">
                 <span data-lang="en">Our Core <span class="gradient-text">Services</span></span>
                 <span data-lang="zh">核心<span class="gradient-text">服务范围</span></span>
                 <span data-lang="es">Nuestros <span class="gradient-text">Servicios</span></span>
             </h2>
             
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="glass-card p-8 rounded-2xl">
-                    <i class="fas fa-brain text-4xl text-green-400 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-4" data-lang="en">Technology Consulting</h3>
-                    <h3 class="text-xl font-bold mb-4" data-lang="zh">技术咨询</h3>
-                    <h3 class="text-xl font-bold mb-4" data-lang="es">Consultoría Tecnológica</h3>
-                    <p class="text-gray-400" data-lang="en">Quantitative strategy, system architecture design, and automation framework planning.</p>
-                    <p class="text-gray-400" data-lang="zh">量化策略咨询、系统架构设计、自动化框架规划及全球技术支持。</p>
-                    <p class="text-gray-400" data-lang="es">Estrategia cuantitativa, diseño de arquitectura de sistemas y planificación de marcos de automatización.</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div class="glass-card p-10 rounded-2xl border-gray-700">
+                    <i class="fas fa-brain text-5xl text-green-400 mb-8"></i>
+                    <h3 class="text-2xl font-bold mb-5 text-white" data-lang="en">Technology Consulting</h3>
+                    <h3 class="text-2xl font-bold mb-5 text-white" data-lang="zh">技术咨询</h3>
+                    <h3 class="text-2xl font-bold mb-5 text-white" data-lang="es">Consultoría Tecnológica</h3>
+                    <p class="text-gray-200" data-lang="en">Quantitative strategy, system architecture design, and automation framework planning.</p>
+                    <p class="text-gray-200" data-lang="zh">量化策略咨询、系统架构设计、自动化框架规划及全球技术支持。</p>
+                    <p class="text-gray-200" data-lang="es">Estrategia cuantitativa, diseño de arquitectura de sistemas y planificación de marcos de automatización.</p>
                 </div>
 
-                <div class="glass-card p-8 rounded-2xl">
-                    <i class="fas fa-code text-4xl text-purple-400 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-4" data-lang="en">Software Development</h3>
-                    <h3 class="text-xl font-bold mb-4" data-lang="zh">软件开发</h3>
-                    <h3 class="text-xl font-bold mb-4" data-lang="es">Desarrollo de Software</h3>
-                    <p class="text-gray-400" data-lang="en">Custom scripts, web applications, and automated monitoring systems.</p>
-                    <p class="text-gray-400" data-lang="zh">定制软件、自动化脚本、网站应用、监控系统与技术平台。</p>
-                    <p class="text-gray-400" data-lang="es">Scripts personalizados, aplicaciones web y sistemas de monitoreo automatizados.</p>
+                <div class="glass-card p-10 rounded-2xl border-gray-700">
+                    <i class="fas fa-code text-5xl text-cyan-300 mb-8"></i>
+                    <h3 class="text-2xl font-bold mb-5 text-white" data-lang="en">Software Development</h3>
+                    <h3 class="text-2xl font-bold mb-5 text-white" data-lang="zh">软件开发</h3>
+                    <h3 class="text-2xl font-bold mb-5 text-white" data-lang="es">Desarrollo de Software</h3>
+                    <p class="text-gray-200" data-lang="en">Custom scripts, web applications, and automated monitoring systems.</p>
+                    <p class="text-gray-200" data-lang="zh">定制软件、自动化脚本、网站应用、监控系统与技术平台。</p>
+                    <p class="text-gray-200" data-lang="es">Scripts personalizados, aplicaciones web y sistemas de monitoreo automatizados.</p>
                 </div>
 
-                <div class="glass-card p-8 rounded-2xl">
-                    <i class="fas fa-globe-americas text-4xl text-blue-400 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-4" data-lang="en">Global Business</h3>
-                    <h3 class="text-xl font-bold mb-4" data-lang="zh">国际商务咨询</h3>
-                    <h3 class="text-xl font-bold mb-4" data-lang="es">Negocios Globales</h3>
-                    <p class="text-gray-400" data-lang="en">Brand management, cross-border operational support, and market expansion.</p>
-                    <p class="text-gray-400" data-lang="zh">品牌管理、国际商务咨询、跨境运营支持与全球市场拓展。</p>
-                    <p class="text-gray-400" data-lang="es">Gestión de marca, soporte operativo transfronterizo y expansión de mercado.</p>
-                </div>
-
-                <div class="glass-card p-8 rounded-2xl">
-                    <i class="fas fa-shield-alt text-4xl text-yellow-400 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-4" data-lang="en">Digital Assets</h3>
-                    <h3 class="text-xl font-bold mb-4" data-lang="zh">数字资产管理</h3>
-                    <h3 class="text-xl font-bold mb-4" data-lang="es">Activos Digitales</h3>
-                    <p class="text-gray-400" data-lang="en">Management of trademarks, domain names, and software copyrights.</p>
-                    <p class="text-gray-400" data-lang="zh">商标、域名、软件著作权及其他数字资产的管理与持有服务。</p>
-                    <p class="text-gray-400" data-lang="es">Gestión de marcas registradas, nombres de dominio y derechos de autor de software.</p>
-                </div>
-
-                <div class="glass-card p-8 rounded-2xl">
-                    <i class="fas fa-shopping-cart text-4xl text-pink-400 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-4" data-lang="en">General Trading</h3>
-                    <h3 class="text-xl font-bold mb-4" data-lang="zh">一般贸易</h3>
-                    <h3 class="text-xl font-bold mb-4" data-lang="es">Comercio General</h3>
-                    <p class="text-gray-400" data-lang="en">Cross-border e-commerce, import/export, and wholesale commerce.</p>
-                    <p class="text-gray-400" data-lang="zh">从事跨境电商、进出口贸易、批发及一般商品贸易。</p>
-                    <p class="text-gray-400" data-lang="es">Comercio electrónico transfronterizo, importación/exportación y comercio al por mayor.</p>
+                <div class="glass-card p-10 rounded-2xl border-gray-700">
+                    <i class="fas fa-globe-americas text-5xl text-yellow-400 mb-8"></i>
+                    <h3 class="text-2xl font-bold mb-5 text-white" data-lang="en">Global Business</h3>
+                    <h3 class="text-2xl font-bold mb-5 text-white" data-lang="zh">国际商务咨询</h3>
+                    <h3 class="text-2xl font-bold mb-5 text-white" data-lang="es">Negocios Globales</h3>
+                    <p class="text-gray-200" data-lang="en">Brand management, cross-border operational support, and market expansion.</p>
+                    <p class="text-gray-200" data-lang="zh">品牌管理、国际商务咨询、跨境运营支持与全球市场拓展。</p>
+                    <p class="text-gray-200" data-lang="es">Gestión de marca, soporte operativo transfronterizo y expansión de mercado.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="py-20 px-6">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
+    <section id="contact" class="py-24 px-6 bg-black/40">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16">
             <div class="flex flex-col justify-center">
-                <h2 class="text-3xl font-bold mb-6">
+                <h2 class="text-4xl font-bold mb-8 text-white">
                     <span data-lang="en">Mission & Vision</span>
                     <span data-lang="zh">使命与愿景</span>
                     <span data-lang="es">Misión y Visión</span>
                 </h2>
-                <p class="text-xl text-gray-300 mb-8 italic border-l-4 border-green-500 pl-6">
+                <p class="text-2xl text-gray-100 mb-10 italic border-l-4 border-green-500 pl-8 font-medium">
                     <span data-lang="en">"Our mission is to provide secure, compliant, and innovative digital services for global clients."</span>
                     <span data-lang="zh">“我们的使命是为全球客户提供安全、合规、创新的数字服务。”</span>
                     <span data-lang="es">"Nuestra misión es brindar servicios digitales seguros, compatibles e innovadores para clientes globales."</span>
                 </p>
-                <p class="text-gray-400">
+                <p class="text-lg text-gray-200">
                     <span data-lang="en">We uphold professionalism, compliance, transparency, and sustainable development.</span>
                     <span data-lang="zh">我们坚持专业、合规、透明与可持续发展。</span>
                     <span data-lang="es">Defendemos el profesionalismo, el cumplimiento, la transparencia y el desarrollo sostenible.</span>
                 </p>
             </div>
 
-            <div class="glass-card p-8 rounded-3xl border-l-4 border-l-purple-500">
-                <h2 class="text-3xl font-bold mb-8" data-lang="en">Get In Touch</h2>
-                <h2 class="text-3xl font-bold mb-8" data-lang="zh">联系我们</h2>
-                <h2 class="text-3xl font-bold mb-8" data-lang="es">Contacto</h2>
+            <div class="glass-card p-10 rounded-3xl border-l-4 border-l-cyan-400 border-gray-700">
+                <h2 class="text-3xl font-bold mb-10 text-white" data-lang="en">Get In Touch</h2>
+                <h2 class="text-3xl font-bold mb-10 text-white" data-lang="zh">联系我们</h2>
+                <h2 class="text-3xl font-bold mb-10 text-white" data-lang="es">Contacto</h2>
                 
-                <div class="space-y-6">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center text-green-400">
+                <div class="space-y-8">
+                    <div class="flex items-center gap-5">
+                        <div class="w-14 h-14 bg-green-500/20 rounded-full flex items-center justify-center text-green-400 text-2xl border border-green-500/40">
                             <i class="fas fa-building"></i>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-400">Company Name</p>
-                            <p class="font-bold">Pexsn Digital SRL</p>
+                            <p class="text-sm text-gray-300">Company Name</p>
+                            <p class="font-bold text-lg text-white">Pexsn Digital SRL</p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center text-purple-400">
+                    <div class="flex items-center gap-5">
+                        <div class="w-14 h-14 bg-cyan-500/20 rounded-full flex items-center justify-center text-cyan-300 text-2xl border border-cyan-500/40">
                             <i class="fas fa-envelope"></i>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-400">Email Address</p>
-                            <p class="font-bold">info@pexsn.com</p>
+                            <p class="text-sm text-gray-300">Email Address</p>
+                            <p class="font-bold text-lg text-white">info@pexsn.com</p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-400">
+                    <div class="flex items-center gap-5">
+                        <div class="w-14 h-14 bg-yellow-500/20 rounded-full flex items-center justify-center text-yellow-400 text-2xl border border-yellow-500/40">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-400">Jurisdiction</p>
-                            <p class="font-bold">Belize</p>
+                            <p class="text-sm text-gray-300">Jurisdiction</p>
+                            <p class="font-bold text-lg text-white">Belize</p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-gray-500/20 rounded-full flex items-center justify-center text-gray-400">
+                    <div class="flex items-center gap-5">
+                        <div class="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center text-white text-2xl border border-white/20">
                             <i class="fas fa-globe"></i>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-400">Website</p>
-                            <p class="font-bold">www.pexsn.com</p>
+                            <p class="text-sm text-gray-300">Website</p>
+                            <p class="font-bold text-lg text-white hover:text-cyan-300 transition"><a href="http://www.pexsn.com">www.pexsn.com</a></p>
                         </div>
                     </div>
                 </div>
@@ -375,16 +369,15 @@
         </div>
     </section>
 
-    <footer class="py-10 border-t border-gray-800 text-center text-gray-500 text-sm">
+    <footer class="py-12 border-t border-gray-800 text-center text-gray-400 text-sm">
         <p>&copy; 2026 Pexsn Digital SRL. All rights reserved.</p>
     </footer>
 
     <script>
+        // 语言切换逻辑
         function changeLang(lang, label) {
             document.documentElement.lang = lang;
             document.getElementById('currentLang').innerText = label;
-            
-            // 可选：保存到本地存储
             localStorage.setItem('preferredLang', lang);
         }
 
