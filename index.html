@@ -842,9 +842,9 @@
                         </p>
                     </div>
                     <div>
-                        <p class="text-4xl font-extrabold"><span>3</span>langs</p>
+                        <p class="text-4xl font-extrabold"><span>∞</span></p>
                         <p class="text-xs text-gray-500 uppercase font-bold tracking-widest">
-                            <span data-lang="en">English • Español • 中文</span><span data-lang="zh">英语 • 西语 • 中文</span><span data-lang="es">Inglés • Español • Chino</span>
+                            <span data-lang="en">Global Infrastructure</span><span data-lang="zh">全球基础设施</span><span data-lang="es">Infraestructura Global</span>
                         </p>
                     </div>
                 </div>
@@ -976,7 +976,7 @@
             if (email) email.focus();
         }
 
-        function handleLeadSubmit(event) {
+        async function handleLeadSubmit(event) {
             event.preventDefault();
             const form = event.target;
             const formData = new FormData(form);
@@ -984,21 +984,34 @@
             const message = (formData.get('message') || '').toString().trim();
             const plan = (formData.get('plan') || 'Starter').toString().trim();
             const preferredLang = document.documentElement.lang || 'en';
-            const subject =
-                preferredLang === 'zh' ? `Pexsn Digital SRL | 免费演示请求（${plan}）` :
-                preferredLang === 'es' ? `Pexsn Digital SRL | Solicitud de Demo Gratis (${plan})` :
-                `Pexsn Digital SRL | Free Demo Request (${plan})`;
-            const body =
-                preferredLang === 'zh'
-                    ? `邮箱：${email}\n想自动化：${message}\n计划：${plan}\n\n— Sent from Pexsn Digital website`
-                    : preferredLang === 'es'
-                    ? `Email: ${email}\nQué automatizar: ${message}\nPlan: ${plan}\n\n— Enviado desde el sitio web de Pexsn Digital`
-                    : `Email: ${email}\nWhat to automate: ${message}\nPlan: ${plan}\n\n— Sent from Pexsn Digital website`;
 
-            const to = 'info@pexsn.com';
-            // No backend required: open user email client.
-            window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            alert(preferredLang === 'zh' ? '已打开邮件客户端，我们收到后会回复你。' : preferredLang === 'es' ? 'Abrimos tu cliente de email. Te responderemos pronto.' : 'Email client opened. We will reply shortly.');
+            if (!email || !message) {
+                alert(preferredLang === 'zh' ? '请填写邮箱和想自动化内容。' : preferredLang === 'es' ? 'Por favor completa correo y qué quieres automatizar.' : 'Please fill in email and automation details.');
+                return false;
+            }
+
+            try {
+                const resp = await fetch('/api/lead', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, message, plan })
+                });
+
+                const data = await resp.json();
+
+                if (!resp.ok) {
+                    throw new Error(data.error || 'Request failed');
+                }
+
+                alert(preferredLang === 'zh' ? '申请已发送，我们会通过 info@pexsn.com 回复你。' : preferredLang === 'es' ? 'Solicitud enviada. Responderemos a info@pexsn.com.' : 'Request submitted. We will reply at info@pexsn.com.');
+                form.reset();
+            } catch (error) {
+                console.error('Lead submit failed', error);
+                alert(preferredLang === 'zh' ? '提交失败，请稍后重试。' : preferredLang === 'es' ? 'Error al enviar. Intenta más tarde.' : 'Submission failed, please try again later.');
+            }
+
             return false;
         }
 
