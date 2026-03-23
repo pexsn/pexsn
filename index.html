@@ -984,27 +984,52 @@
             changeLang(savedLang, labels[savedLang]);
         };
 
-        // Language dropdown: show on hover/click, hide on outside click/leave.
+        // Language dropdown:
+        // - Keep open while the cursor is on the button OR dropdown.
+        // - Hide only after cursor leaves both (with a small delay to prevent flicker),
+        //   or immediately after a language is selected.
+        // - Close when clicking outside the widget.
         (function initLangDropdown() {
             const wrap = document.getElementById('langWrap');
             const dropdown = document.getElementById('langDropdown');
             const btn = document.getElementById('langToggleButton');
             if (!wrap || !dropdown || !btn) return;
 
-            // Use hover to keep it open while the cursor is on the widget.
-            wrap.addEventListener('mouseenter', () => dropdown.classList.remove('hidden'));
-            wrap.addEventListener('mouseleave', () => dropdown.classList.add('hidden'));
+            let closeTimer = null;
+            const CLOSE_DELAY_MS = 160;
 
-            // Also support click toggling (useful for touch devices).
+            function openDropdown() {
+                if (closeTimer) clearTimeout(closeTimer);
+                dropdown.classList.remove('hidden');
+            }
+
+            function scheduleClose() {
+                if (closeTimer) clearTimeout(closeTimer);
+                closeTimer = setTimeout(() => {
+                    dropdown.classList.add('hidden');
+                    closeTimer = null;
+                }, CLOSE_DELAY_MS);
+            }
+
+            // Hover behavior: open if you're on either element, close only after leaving both.
+            btn.addEventListener('mouseenter', openDropdown);
+            btn.addEventListener('mouseleave', scheduleClose);
+            dropdown.addEventListener('mouseenter', openDropdown);
+            dropdown.addEventListener('mouseleave', scheduleClose);
+
+            // Click toggling: helpful for touch / trackpad.
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                dropdown.classList.toggle('hidden');
+                if (dropdown.classList.contains('hidden')) openDropdown();
+                else dropdown.classList.add('hidden');
             });
 
-            // Clicking anywhere else closes it.
-            document.addEventListener('click', () => dropdown.classList.add('hidden'));
+            // Close on outside click (use mousedown so it feels instant).
+            document.addEventListener('mousedown', (e) => {
+                if (!wrap.contains(e.target)) dropdown.classList.add('hidden');
+            });
 
-            // Prevent dropdown click from triggering the document handler first.
+            // Avoid selection clicks bubbling.
             dropdown.addEventListener('click', (e) => e.stopPropagation());
         })();
     </script>
