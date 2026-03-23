@@ -180,13 +180,13 @@
                     <a href="#contact" class="hover:text-[#22c55e] transition" data-lang="zh">联系</a>
                     <a href="#contact" class="hover:text-[#22c55e] transition" data-lang="es">Contacto</a>
                 </div>
-                <div class="relative group">
-                    <button class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10 text-xs font-bold">
+                <div class="relative" id="langWrap">
+                    <button id="langToggleButton" class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10 text-xs font-bold" type="button">
                         <i class="fas fa-globe text-[#22c55e]"></i>
                         <span id="langLabel">ENGLISH</span>
                         <i class="fas fa-chevron-down opacity-50"></i>
                     </button>
-                    <div class="absolute right-0 top-full mt-2 w-32 bg-[#0a0e27] border border-white/10 rounded-xl overflow-hidden hidden group-hover:block shadow-2xl">
+                    <div id="langDropdown" class="absolute right-0 top-full mt-2 w-32 bg-[#0a0e27] border border-white/10 rounded-xl overflow-hidden hidden shadow-2xl">
                         <div class="px-4 py-2 hover:bg-white/5 cursor-pointer text-xs" onclick="changeLang('en', 'ENGLISH')">ENGLISH</div>
                         <div class="px-4 py-2 hover:bg-white/5 cursor-pointer text-xs" onclick="changeLang('es', 'ESPAÑOL')">ESPAÑOL</div>
                         <div class="px-4 py-2 hover:bg-white/5 cursor-pointer text-xs" onclick="changeLang('zh', '中文')">中文</div>
@@ -934,6 +934,9 @@
             document.documentElement.lang = lang;
             document.getElementById('langLabel').innerText = label;
             localStorage.setItem('preferredLang', lang);
+            // Close language dropdown after selection (prevents hover flicker).
+            const dropdown = document.getElementById('langDropdown');
+            if (dropdown) dropdown.classList.add('hidden');
             if (window.innerWidth < 768) {
                 document.getElementById('mobileMenu').style.display = 'none';
                 document.getElementById('menuIcon').classList.replace('fa-times', 'fa-bars');
@@ -980,6 +983,30 @@
             const labels = { 'en': 'ENGLISH', 'es': 'ESPAÑOL', 'zh': '中文' };
             changeLang(savedLang, labels[savedLang]);
         };
+
+        // Language dropdown: show on hover/click, hide on outside click/leave.
+        (function initLangDropdown() {
+            const wrap = document.getElementById('langWrap');
+            const dropdown = document.getElementById('langDropdown');
+            const btn = document.getElementById('langToggleButton');
+            if (!wrap || !dropdown || !btn) return;
+
+            // Use hover to keep it open while the cursor is on the widget.
+            wrap.addEventListener('mouseenter', () => dropdown.classList.remove('hidden'));
+            wrap.addEventListener('mouseleave', () => dropdown.classList.add('hidden'));
+
+            // Also support click toggling (useful for touch devices).
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dropdown.classList.toggle('hidden');
+            });
+
+            // Clicking anywhere else closes it.
+            document.addEventListener('click', () => dropdown.classList.add('hidden'));
+
+            // Prevent dropdown click from triggering the document handler first.
+            dropdown.addEventListener('click', (e) => e.stopPropagation());
+        })();
     </script>
 </body>
 </html>
